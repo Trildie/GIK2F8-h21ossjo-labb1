@@ -46,5 +46,15 @@ function renderBookList(bookList) {
 
   existingElement && root.removeChild(existingElement);
   bookList.length > 0 && searchField.value && root.insertAdjacentHTML('beforeend', BookList(bookList));
+  
+  for (let bookId of document.getElementsByClassName("book-list__item")){
+    bookId.addEventListener("mouseenter", (e) => {
+      console.log("TESTTTT" + bookId.getAttribute("ID"))
+    })
+    bookId.addEventListener("mouseleave", (e) => {
+      console.log("mupp skola")
+    })
+  }
+
 }
 
