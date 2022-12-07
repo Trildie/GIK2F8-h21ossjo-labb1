@@ -15,7 +15,7 @@ document.getElementById("book.id").addEventListener("onmouseover", displayDate);
 
 const BookListItem = (book) => {
   
-  let html = `<li ID=${book.id}
+  let html = `<li ID="${book.id}" Author="${book.author}" CoverImg="${book.coverImage}" numPages="${book.pages}" RelDate="${book.releaseDate}" Title="${book.title}" 
                 class="book-list__item mb-2 mx-2 last:mb-0 p-3 text-indigo-900 last:border-b-0 border-b border-indigo-700 cursor-pointer">
                 
               ${book.author} - ${book.title}    
