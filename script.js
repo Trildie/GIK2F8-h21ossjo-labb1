@@ -21,44 +21,24 @@ searchField.addEventListener('keyup', (e) =>
   )
 );
 
-//Org backup
-//Orginal listner för searchField
-/* searchField.addEventListener('keyup', (e) =>
-  renderBookList(
-    bookList.filter(({ title, author }) => {
-      const searchTerm = e.target.value.toLowerCase();
-      return (
-        title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        author.toLowerCase().includes(searchTerm.toLowerCase())
-      );
-    })
-  )
-); */
-
-//När man för över musen
-console.log(document.getElementById(1))
-/* document.getElementById(1).addEventListener('onmouseenter', (e) =>
-  rendBookInfo(
-    bookList.filter(({ id }) => {
-      const searchTerm = e.target.value.toLowerCase();
-      return (
-        id
-      );
-    })
-  )
-); */
-
+//Funktionen som renderar ut informationen om booken.
+//Skapar en div och i den h2 och p-tag som vi sätter in vad som ska skrivas ut.
+//Samt så läser vi in bilden.
+//style="z-index: 5 gör att den ritas ut framför det andra.
+//Absolute för den ska lägga sig högst upp utan att peta ner andra saker på sidan, samt pointer-events-none så att om man drar musen över så ska den ignoreras.
+//Detta för om jag hade fått informationen att skriva ut sig mitt över listan.
 function renderBookInformation(FoundBookId){
-  let bookInfo = `<div ID='bookInfoDivId' class=" rounded-md border-2 border-blue-400 bg-white w-200 mx-auto absolute pointer-events-none"> 
+  let bookInfo = `<div ID='bookInfoDivId' class=" rounded-md border-2 border-blue-400 bg-white w-400px h-300px mx-auto absolute pointer-events-none" style="z-index: 5"> 
       <h2> Author ${FoundBookId.author}</h2>    
       <p>Book : ${FoundBookId.title} 
       <br>Number of pages : ${FoundBookId.pages}
       <br>Release date : ${FoundBookId.releaseDate}
       </p>
-      <img src="${FoundBookId.coverImage}" alt="Book Cover" width="50" height="50">
+      <img src="${FoundBookId.coverImage}" alt="Book Cover" width="70px" height="100px">
         
         </div>`
       root.insertAdjacentHTML('beforebegin', bookInfo);
+
 }
 
 
@@ -73,97 +53,20 @@ function renderBookList(bookList) {
   existingElement && root.removeChild(existingElement);
   bookList.length > 0 && searchField.value && root.insertAdjacentHTML('beforeend', BookList(bookList));
   //Loopar igenom book-list_item för varje bookID och gör en eventListner på varje.
-  //Skapar en div med ett ID=bookInfoDivID
-  //Sedan skapars h1 tag och p-tag som skriver ut informationen om boken.
-  //Sist läggs bilden av boken in.
+  //kallar på api asyc funktionen och skickar in IDt på boken som event listnern triggade på.
+  //Utskriften av booken sköts av den funktionen genom att kalla på en annan funktion, då hinner den hämta datan innan den skriver ut.
+  //consol loggar ut boook för att se att den kör.
   for (let bookId of document.getElementsByClassName("book-list__item")){
     bookId.addEventListener("mouseenter", (e) => {
       
       getBookById(bookId.getAttribute("ID")).then((apiBooks) => (boook = apiBooks));
       console.log(boook)
-      /* let FoundBookId = boook; */
-      /* let bookInfo = `<div ID='bookInfoDivId' class=" rounded-md border-2 border-blue-400 bg-white w-200 mx-auto absolute pointer-events-none"> 
-      <h2> Author ${FoundBookId.author}</h2>    
-      <p>Book : ${FoundBookId.title} 
-      <br>Number of pages : ${FoundBookId.pages}
-      <br>Release date : ${FoundBookId.releaseDate}
-      </p>
-      <img src="${FoundBookId.coverImage}" alt="Book Cover" width="50" height="50">
-        
-        </div>`
-      root.insertAdjacentHTML('beforebegin', bookInfo); */
-      
-
+      //Kallar på getBookById som är en asyncron funktion, så den hämtar bara 1 specifik bok.
     })
     bookId.addEventListener("mouseleave", (e) => {
       document.getElementById("bookInfoDivId").remove()
       //Tar bort elementID bookInfoDivId så den försvinner när musen lämnar.
     })
   }
-
 }
 
-//Sätta in utskriften i en egen funktion, då den nu försöker köra saker innan datan är hämtad
-
-
-//Fungerande med bilder mm
-/* function renderBookList(bookList) {
-  const existingElement = document.querySelector('.book-list');
-
-  const root = document.getElementById('root');
-
-  existingElement && root.removeChild(existingElement);
-  bookList.length > 0 && searchField.value && root.insertAdjacentHTML('beforeend', BookList(bookList));
-  //Loopar igenom book-list_item för varje bookID och gör en eventListner på varje.
-  //Skapar en div med ett ID=bookInfoDivID
-  //Sedan skapars h1 tag och p-tag som skriver ut informationen om boken.
-  //Sist läggs bilden av boken in.
-  for (let bookId of document.getElementsByClassName("book-list__item")){
-    bookId.addEventListener("mouseenter", (e) => {
-      let bookInfo = `<div ID='bookInfoDivId' class=" rounded-md border-2 border-blue-400 bg-white w-200 mx-auto absolute pointer-events-none"> 
-      <h2> Author ${bookId.getAttribute("Author")}</h2>    
-      <p>Book : ${bookId.getAttribute("Title")} 
-      <br>Number of pages : ${bookId.getAttribute("numPages")}
-      <br>Release date : ${bookId.getAttribute("RelDate")}
-      </p>
-      <img src="${bookId.getAttribute("CoverImg")}" alt="Book Cover" width="50" height="50">
-        
-        </div>`
-      root.insertAdjacentHTML('beforebegin', bookInfo);
-      
-
-    })
-    bookId.addEventListener("mouseleave", (e) => {
-      document.getElementById("bookInfoDivId").remove()
-      //Tar bort elementID bookInfoDivId så den försvinner när musen lämnar.
-    })
-  }
-
-} */
-
-
-
-//backup av den fungerande delen.
-/* function renderBookList(bookList) {
-  const existingElement = document.querySelector('.book-list');
-
-  const root = document.getElementById('root');
-
-  existingElement && root.removeChild(existingElement);
-  bookList.length > 0 && searchField.value && root.insertAdjacentHTML('beforeend', BookList(bookList));
-  
-  for (let bookId of document.getElementsByClassName("book-list__item")){
-    bookId.addEventListener("mouseenter", (e) => {
-      console.log("TESTTTT" + bookId.getAttribute("ID"))
-      console.log("pages :" + bookId.getAttribute("numPages"))
-      console.log("release date: " + bookId.getAttribute("RelDate"))
-      console.log(bookList.pages)
-      
-
-    })
-    bookId.addEventListener("mouseleave", (e) => {
-      console.log("mupp skola")
-    })
-  }
-
-} */
